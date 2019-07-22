@@ -4,9 +4,9 @@ This plugin can be used to trigger beagle penetration testing from jenkins
 
 ### Prerequisites
 
-Obtain Application Token and User Token from Beagle Dashboard
+Obtain Application Token and Access Token from Beagle Dashboard
 
-### Generate your User Token From Beagle User Settings:
+### Generate your Access Token From Beagle User Settings:
   Settings -> Access token -> Generate your new personal access token
 
 ![Generate user token](https://beagle-assets.s3.ca-central-1.amazonaws.com/share/usertoken.png)
@@ -44,12 +44,12 @@ You have to setup APPLICATION TOKEN and USER TOKEN in Jenkins in order to trigge
 	* `Select project` -> `Configure` -> Select `Build` -> `Add build step` -> Select `Trigger Beagle Penetration Testing` -> Provide `Application Token` and `Save`
 	![Global Config](/images/3.png)
 	![Global Config](/images/4.png)
-2. For USER TOKEN you're provided with two options:
-	* Configure Globally, Then by default this USER TOKEN used by the Plugin. To configure it globally follow the steps
+2. For ACCESS TOKEN you're provided with two options:
+	* Configure Globally, Then by default this ACCESS TOKEN used by the Plugin. To configure it globally follow the steps
 		* `Manage Jenkins` -> `Configure System` -> Navigate to `Beagle Security` and Specify your token and `Save`
 		![Global Config](/images/2.png)
 	* Configure Locally for a project, If this step is done the global configuration will be overrided for the selected project.To configure it per project follow the steps
-		* `Select project` -> `Configure` -> Select `Build` -> `Add build step` -> Select `Trigger Beagle Penetration Testing` -> Select `Advanced` -> Provide `User Token` and `Save`
+		* `Select project` -> `Configure` -> Select `Build` -> `Add build step` -> Select `Trigger Beagle Penetration Testing` -> Select `Advanced` -> Provide `Access Token` and `Save`
 ## Authors
 
 * **Beagle Security**
