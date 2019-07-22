@@ -48,12 +48,12 @@ import hudson.util.Secret;
 public class BeaglePlugin extends Builder implements SimpleBuildStep {
 
 	Secret atoken;
-	Secret utoken;
+	Secret actoken;
 
 	@DataBoundConstructor
-	public BeaglePlugin(Secret apptoken,Secret usertoken) {
+	public BeaglePlugin(Secret apptoken,Secret accesstoken) {
 		this.atoken = apptoken;
-		this.utoken = usertoken;
+		this.actoken = accesstoken;
 	}
 
 	@Exported
@@ -61,8 +61,8 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
         return atoken.toString();
     }
     @Exported
-    public String getUsertoken() {
-       return utoken.toString();
+    public String getAccesstoken() {
+       return actoken.toString();
     }
 
 	public void perform(Run<?,?> build, FilePath workspace, Launcher launcher, TaskListener listener) {
@@ -73,19 +73,19 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
        		listener.getLogger().println("Application Token not Provided! Refer Help File");
        		flag = false;
        	}
-      	if (utoken.toString().isEmpty()) {
+      	if (actoken.toString().isEmpty()) {
       		if (gtoken.toString().isEmpty()) {
-      			listener.getLogger().println("User Token not provided by globally or locally! Refer Help");
+      			listener.getLogger().println("Access Token not provided by globally or locally! Refer Help");
        			flag = false;
       		} else {
       			guflag = true;
-      			utoken = gtoken;
+      			actoken = gtoken;
       		}
        	}
        	if(flag) {
 			HttpClient c = HttpClientBuilder.create().build();
 			HttpPost p = new HttpPost("https://api.beaglesecurity.com/v1/test/start/");
-			p.setEntity((HttpEntity) new StringEntity("{\"user_token\":\""+utoken.toString()+"\",\"application_token\":\""+atoken.toString()+"\"}",ContentType.create("application/json")));
+			p.setEntity((HttpEntity) new StringEntity("{\"access_token\":\""+actoken.toString()+"\",\"application_token\":\""+atoken.toString()+"\"}",ContentType.create("application/json")));
 	        HttpResponse r = null;
 			try {
 				String str = null;
@@ -101,7 +101,7 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
 						listener.getLogger().println("Status :" + obj.get("status"));
 						listener.getLogger().println("Message :" + obj.get("message"));
 						if(guflag) {
-							utoken = null;
+							actoken = null;
 							guflag = false;
 						}
 					}
@@ -122,26 +122,26 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
 		public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return true;
 		}
-		private Secret gutoken;
+		private Secret gatoken;
 
 		public DescriptorImpl() {
             load();
         }
         @Exported
-    	public String getGusertoken() {
-       		return gutoken.toString();
+    	public String getGaccesstoken() {
+       		return gatoken.toString();
     	}
 		public String getDisplayName() {
     		return "Trigger Beagle Penetration Testing";
 		}
 
 		public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-    		gutoken = Secret.fromString(formData.getString("gusertoken"));
+    		gatoken = Secret.fromString(formData.getString("gaccesstoken"));
     		save();
     		return super.configure(req,formData);
 		}
 		public Secret getUtoken() {
-            return gutoken;
+            return gatoken;
         }
 	}
 }
