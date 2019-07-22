@@ -5,7 +5,7 @@
 	</f:entry>
 	<f:advanced>
 		<f:section title="Advanced">
-    		<f:entry title="User Token" field="usertoken">
+    		<f:entry title="Access Token" field="accesstoken">
     			<f:password />
     		</f:entry>
     	</f:section>
