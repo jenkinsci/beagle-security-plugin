@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.46</version>
+        <version>4.64</version>
         <relativePath />
     </parent>
     <artifactId>beagle-security</artifactId>
@@ -15,11 +15,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <skipTests>true</skipTests>
         <pmd.skip>true</pmd.skip>
-        <findbugs.skip>true</findbugs.skip>
         <jenkins.version>2.401.1</jenkins.version>
-        <java.level>8</java.level>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <name>Beagle Security</name>
     <description>This plugin will trigger Beagle Security test</description>
@@ -60,19 +56,6 @@
             <version>2.10.1</version>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>
