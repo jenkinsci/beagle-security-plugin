@@ -96,7 +96,7 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
 				r = c.execute(p);
 				int statcode = r.getStatusLine().getStatusCode();
 				if(statcode == 200 || statcode == 400) {
-					BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+					BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(r.getEntity().getContent(),"UTF-8"));
 					str = rd.readLine();
 					JsonParser parser = new JsonParser();
 					if (str != null) {
