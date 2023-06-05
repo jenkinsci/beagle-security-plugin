@@ -14,9 +14,12 @@ import net.sf.json.JSONObject;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
+import org.apache.tools.ant.taskdefs.XSLTProcess.Param;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -84,21 +87,23 @@ public class BeaglePlugin extends Builder implements SimpleBuildStep {
        	}
        	if(flag) {
 			HttpClient c = HttpClientBuilder.create().build();
-			HttpPost p = new HttpPost("https://api.beaglesecurity.com/v1/test/start/");
-			p.setEntity((HttpEntity) new StringEntity("{\"access_token\":\""+actoken.toString()+"\",\"application_token\":\""+atoken.toString()+"\"}",ContentType.create("application/json")));
-	        HttpResponse r = null;
+			HttpPost p = new HttpPost("https://api.beaglesecurity.com/rest/v2/test/start/");
+			p.setHeader(new BasicHeader("Authorization", "Bearer " + actoken.toString()));
+			p.setEntity((HttpEntity) new StringEntity("{\"applicationToken\":\""+atoken.toString() +"\"}",ContentType.create("application/json")));
+			HttpResponse r = null;
 			try {
 				String str = null;
 				r = c.execute(p);
 				int statcode = r.getStatusLine().getStatusCode();
 				if(statcode == 200 || statcode == 400) {
-					BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+					BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(r.getEntity().getContent(),"UTF-8"));
 					str = rd.readLine();
+					rd.close();
 					JsonParser parser = new JsonParser();
 					if (str != null) {
 						JsonElement jsonel = parser.parse(str);
 						JsonObject obj = jsonel.getAsJsonObject();
-						listener.getLogger().println("Status :" + obj.get("status"));
+						listener.getLogger().println("Status :" + obj.get("code"));
 						listener.getLogger().println("Message :" + obj.get("message"));
 						if(guflag) {
 							actoken = null;
